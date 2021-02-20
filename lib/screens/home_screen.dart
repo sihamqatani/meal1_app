@@ -75,7 +75,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Container(
                   child: Card(
-                    color: Colors.pink,
+                    elevation: 0,
+                    color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0))
                   ),
