@@ -1,22 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:meal1app/Modules/menu_types.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:meal1app/Modules/popular_food_type.dart';
+import 'package:meal1app/screens/food_detailsPage.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var rating = 0.0;
+
   Cateorgy menuType = Cateorgy('برجر', 'assets/Images/Menus/burger.png');
-
-  /*  Widget topMenuDetails( String name,String imageUrl){
-      for(int i=0;i<10;i++){
-       menuType;
-      }
-      return menuType{name,imageUrl};
-    }*/
+  FoodDetails foodDetails = FoodDetails(
+      name: 'رزمع الدجاج ',
+      imageUrl: ' assets/Images/Menus/popular_food/popular2.png',
+      no_rating: 1.1,
+      price: 20);
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          bottomNavigationBar: bottomNavigatorSection(),
           appBar: AppBar(
             title: Text(
               'تطبيق مزاجي ',
@@ -46,9 +56,10 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget popularFoodMenu(BuildContext ctx) {
+    //var rating;
     return Container(
       // color: Colors.white,
-      height: 450,
+      height: 750,
       child: Column(
         children: [
           Row(
@@ -68,89 +79,136 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
-          Container(height: 200,width: MediaQuery.of(ctx).size.width,
+          Container(
+            height: 350,
+            padding: EdgeInsets.only(right: 8, left: 8),
+            width: MediaQuery.of(ctx).size.width,
             child: ListView(
               scrollDirection: Axis.horizontal,
               itemExtent: 200,
               children: [
-                Container(
-                  child: Card(
-                    elevation: 0,
-                    color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0))
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.pink,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.pink,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.pink,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.yellow,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
-                Container(
-                  child: Card(
-                    color: Colors.grey,
-                  ),
-                  color: Colors.white, height: 350,
-                  // width:MediaQuery.of(ctx).size.width,
-                ),
+                popularListItem(),
+                popularListItem(),
+                popularListItem(),
+                popularListItem(),
               ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget popularListItem() {
+    return Container(
+      child: Card(
+        elevation: 0,
+        color: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+        child: Stack(
+          children: [
+            Align(
+              child: Container(
+                child: Icon(
+                  Icons.favorite_border,
+                  color: Colors.pink[100],
+                  size: 25,
+                ),
+                height: 5,
+                width: 5,
+                padding: EdgeInsets.only(left: 29, top: 10),
+              ),
+              alignment: Alignment.topLeft,
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                padding: EdgeInsets.only(bottom: 100),
+                width: double.infinity,
+                height: 300,
+                child: Center(
+                  child: GestureDetector(onTap:(){return Navigator.push(context, MaterialPageRoute(builder: (context){return FoodPageDetails();}));} ,
+                    child: Image.asset(
+                      'assets/Images/Menus/popular_food/popular1.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 210, right: 22),
+                    child: Text(
+                      'ستيك لحم مع الخضار',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 22),
+                    ),
+                  ),
+                  alignment: Alignment.centerRight,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8, left: 8),
+                  child: Align(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '1.9',
+                          style:
+                              TextStyle(color: Colors.grey[600], fontSize: 22),
+                        ),
+                        Container(
+                          child: SmoothStarRating(
+                              allowHalfRating: false,
+                              onRated: (v) {},
+                              starCount: 5,
+                              rating: rating,
+                              size: 20.0,
+                              isReadOnly: false,
+                              filledIconData: Icons.star,
+                              halfFilledIconData: Icons.star_border,
+                              color: Colors.pink[100],
+                              borderColor: Colors.pink[50],
+                              spacing: 2.0),
+
+                          //Row(
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.centerRight,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Container(
+                      child: Center(
+                    child: Text(
+                      '12 \$',
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.red[200],
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+      // color: Colors.white,
+      height: 400,
+      // width:MediaQuery.of(ctx).size.width,
     );
   }
 
@@ -187,35 +245,96 @@ class HomeScreen extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemExtent: 50.0,
           itemBuilder: (context, int i) {
-            return Container(
-              child: Column(
-                children: [
-                  Card(
-                      child: Container(
-                    color: Colors.white,
-                    width: 50,
-                    height: 50,
-                    child: Card(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Container(
-                        width: 25,
-                        height: 25,
-                        child: Center(
-                          child: Image.asset(menuType.imageUrl),
+            return InkWell(
+              child: Container(
+                child: Column(
+                  children: [
+                    Card(
+                        child: Container(
+                      decoration: BoxDecoration(
+                        // color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: Card(
+                        elevation: 0,
+                        /* shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),*/
+
+                        child: Container(
+                          width: 25,
+                          height: 25,
+                          child: Center(
+                            child: Image.asset(menuType.imageUrl),
+                          ),
                         ),
                       ),
+                    )),
+                    Text(
+                      menuType.name,
+                      style: TextStyle(color: Colors.grey[600], fontSize: 18),
                     ),
-                  )),
-                  Text(
-                    menuType.name,
-                    style: TextStyle(color: Colors.grey[600], fontSize: 18),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),
+    );
+  }
+
+  navigateScreen(int selectedIndex) {
+    switch(selectedIndex){
+      case 1:
+       Navigator.push(context, MaterialPageRoute(builder: (context){return FoodPageDetails();}));break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context){return Container(color: Colors.yellow,);}));break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context){return Container(color: Colors.grey,);}));break;
+      case 4:
+        Navigator.push(context, MaterialPageRoute(builder: (context){return Container(color: Colors.blue);}));break;
+
+
+    }}
+
+  bottomNavigatorSection() {
+    int selectedIndex=0;
+
+    return BottomNavigationBar(
+      onTap: (int x){
+        setState(() {
+          selectedIndex=x;
+          print(selectedIndex);
+
+          navigateScreen(selectedIndex);
+        });
+      },
+
+
+      type: BottomNavigationBarType.fixed,
+      items: [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          //  activeIcon: ,
+          label: 'الرئيسية',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart),
+          label: 'اطلب الآن',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.card_giftcard),
+          label: 'العروض',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite),
+          label: 'مفضلاتي',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_box),
+          label: 'حسابي',
+        ),
+      ],
     );
   }
 }
