@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:meal1app/Modules/menu_types.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:meal1app/Modules/popular_food_type.dart';
 import 'package:meal1app/screens/food_detailsPage.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -65,12 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Container(alignment:Alignment.topRight ,
+            child: Container(
+              alignment: Alignment.topRight,
               child: Text('الوجبات الاكثر طلبا',
                   style: TextStyle(color: Colors.grey[600], fontSize: 22)),
             ),
           ),
-
           Container(
             height: 350,
             padding: EdgeInsets.only(right: 8, left: 8),
@@ -101,7 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: [
             Align(
-              child: IconButton(onPressed:(){} ,
+              child: IconButton(
+                onPressed: () {},
                 icon: Icon(
                   Icons.favorite_border,
                   color: Colors.pink[100],
@@ -149,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.centerRight,
                 ),
                 SizedBox(
-                  height:10,
+                  height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 8, left: 8),
@@ -163,7 +164,24 @@ class _HomeScreenState extends State<HomeScreen> {
                               TextStyle(color: Colors.grey[600], fontSize: 22),
                         ),
                         Container(
-                          child: SmoothStarRating(
+                          child: RatingBar.builder(
+                            itemSize: 20,
+                            initialRating: 1,
+                            minRating: 1,
+                            direction: Axis.horizontal,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            // itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                            itemBuilder: (context, _) =>
+                                Icon(
+                                  Icons.star,
+                                  color: Colors.red[200],
+                                ),
+                            onRatingUpdate: (rating) {
+                              print(rating);
+                            },
+                          ),
+                          /*SmoothStarRating(
                               allowHalfRating: false,
                               onRated: (v) {},
                               starCount: 5,
@@ -174,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               halfFilledIconData: Icons.star_border,
                               color: Colors.pink[100],
                               borderColor: Colors.pink[50],
-                              spacing: 2.0),
+                              spacing: 2.0),*/
 
                           //Row(
                         ),
@@ -184,16 +202,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(color:Colors.red[100] ,child: IconButton(color: Colors.red[100],icon: Icon(Icons.add,), onPressed: null)),
                       Text(
                         '\$12 ',
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.red[200],
                             fontWeight: FontWeight.bold),
+                      ),
+                      CircleAvatar(backgroundColor: Colors.red[100], radius: 20,
+                        child: IconButton(iconSize: 20,
+                            color: Colors.white,
+                            icon: Icon(
+                              Icons.add,
+                            ),
+                            onPressed: () {}),
                       ),
                     ],
                   ),
@@ -237,7 +263,8 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 100,
       //width: MediaQuery.of(context).size.width,
 
-      child: ListView(//shrinkWrap: true,
+      child: ListView(
+        //shrinkWrap: true,
         children: [
           drawTopMenu(),
           drawTopMenu(),
@@ -246,7 +273,6 @@ class _HomeScreenState extends State<HomeScreen> {
           drawTopMenu(),
           drawTopMenu(),
           drawTopMenu(),
-
         ],
         itemExtent: 50,
         scrollDirection: Axis.horizontal,
@@ -322,8 +348,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- Widget drawTopMenu() {
-    return  Container(
+  Widget drawTopMenu() {
+    return Container(
       child: Column(
         children: [
           Card(
@@ -355,6 +381,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-
   }
 }
