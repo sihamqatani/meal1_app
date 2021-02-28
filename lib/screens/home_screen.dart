@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   searchPart(),
                   topMenuPart(),
                   popularFoodMenu(context),
+                  popularFoodMenu(context),
                 ],
               ),
             ),
@@ -59,26 +60,17 @@ class _HomeScreenState extends State<HomeScreen> {
     //var rating;
     return Container(
       // color: Colors.white,
-      height: 750,
+      height: 440,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text('الوجبات الاكثر طلبا',
-                    style: TextStyle(color: Colors.grey[600], fontSize: 22)),
-              ),
-              FlatButton(
-                onPressed: () {},
-                child: Text(
-                  'المزيد',
-                  style: TextStyle(color: Colors.lightBlue, fontSize: 22),
-                ),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(alignment:Alignment.topRight ,
+              child: Text('الوجبات الاكثر طلبا',
+                  style: TextStyle(color: Colors.grey[600], fontSize: 22)),
+            ),
           ),
+
           Container(
             height: 350,
             padding: EdgeInsets.only(right: 8, left: 8),
@@ -109,15 +101,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: [
             Align(
-              child: Container(
-                child: Icon(
+              child: IconButton(onPressed:(){} ,
+                icon: Icon(
                   Icons.favorite_border,
                   color: Colors.pink[100],
                   size: 25,
                 ),
-                height: 5,
-                width: 5,
-                padding: EdgeInsets.only(left: 29, top: 10),
               ),
               alignment: Alignment.topLeft,
             ),
@@ -129,9 +118,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 padding: EdgeInsets.only(bottom: 100),
                 width: double.infinity,
-                height: 300,
+                height: 350,
                 child: Center(
-                  child: GestureDetector(onTap:(){return Navigator.push(context, MaterialPageRoute(builder: (context){return FoodPageDetails();}));} ,
+                  child: GestureDetector(
+                    onTap: () {
+                      return Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return FoodPageDetails();
+                      }));
+                    },
                     child: Image.asset(
                       'assets/Images/Menus/popular_food/popular1.png',
                       fit: BoxFit.cover,
@@ -154,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.centerRight,
                 ),
                 SizedBox(
-                  height: 10,
+                  height:10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 8, left: 8),
@@ -163,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '1.9',
+                          '(1.9)',
                           style:
                               TextStyle(color: Colors.grey[600], fontSize: 22),
                         ),
@@ -189,17 +184,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Container(
-                      child: Center(
-                    child: Text(
-                      '12 \$',
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.red[200],
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(color:Colors.red[100] ,child: IconButton(color: Colors.red[100],icon: Icon(Icons.add,), onPressed: null)),
+                      Text(
+                        '\$12 ',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.red[200],
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                 )
               ],
             )
@@ -236,81 +233,68 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget topMenuPart() {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0),
+      margin: EdgeInsets.symmetric(vertical: 20.0),
       height: 100,
       //width: MediaQuery.of(context).size.width,
 
-      child: ListView.builder(
-          itemCount: 10,
-          scrollDirection: Axis.horizontal,
-          itemExtent: 50.0,
-          itemBuilder: (context, int i) {
-            return InkWell(
-              child: Container(
-                child: Column(
-                  children: [
-                    Card(
-                        child: Container(
-                      decoration: BoxDecoration(
-                        // color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      width: 50,
-                      height: 50,
-                      child: Card(
-                        elevation: 0,
-                        /* shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),*/
+      child: ListView(//shrinkWrap: true,
+        children: [
+          drawTopMenu(),
+          drawTopMenu(),
+          drawTopMenu(),
+          drawTopMenu(),
+          drawTopMenu(),
+          drawTopMenu(),
+          drawTopMenu(),
 
-                        child: Container(
-                          width: 25,
-                          height: 25,
-                          child: Center(
-                            child: Image.asset(menuType.imageUrl),
-                          ),
-                        ),
-                      ),
-                    )),
-                    Text(
-                      menuType.name,
-                      style: TextStyle(color: Colors.grey[600], fontSize: 18),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
+        ],
+        itemExtent: 50,
+        scrollDirection: Axis.horizontal,
+      ),
     );
   }
 
   navigateScreen(int selectedIndex) {
-    switch(selectedIndex){
+    switch (selectedIndex) {
       case 1:
-       Navigator.push(context, MaterialPageRoute(builder: (context){return FoodPageDetails();}));break;
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return FoodPageDetails();
+        }));
+        break;
       case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context){return Container(color: Colors.yellow,);}));break;
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return Container(
+            color: Colors.yellow,
+          );
+        }));
+        break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context){return Container(color: Colors.grey,);}));break;
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return Container(
+            color: Colors.grey,
+          );
+        }));
+        break;
       case 4:
-        Navigator.push(context, MaterialPageRoute(builder: (context){return Container(color: Colors.blue);}));break;
-
-
-    }}
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return Container(color: Colors.blue);
+        }));
+        break;
+    }
+  }
 
   bottomNavigatorSection() {
-    int selectedIndex=0;
+    int selectedIndex = 0;
 
     return BottomNavigationBar(
-      onTap: (int x){
+      onTap: (int x) {
         setState(() {
-          selectedIndex=x;
+          selectedIndex = x;
           print(selectedIndex);
 
           navigateScreen(selectedIndex);
         });
       },
-
-
       type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
@@ -336,5 +320,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+ Widget drawTopMenu() {
+    return  Container(
+      child: Column(
+        children: [
+          Card(
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                width: 50,
+                height: 50,
+                child: Card(
+                  elevation: 0,
+                  /* shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),*/
+
+                  child: Container(
+                    width: 25,
+                    height: 25,
+                    child: Center(
+                      child: Image.asset(menuType.imageUrl),
+                    ),
+                  ),
+                ),
+              )),
+          Text(
+            menuType.name,
+            style: TextStyle(color: Colors.grey[600], fontSize: 18),
+          ),
+        ],
+      ),
+    );
+
   }
 }
