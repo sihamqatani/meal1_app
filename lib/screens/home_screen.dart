@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:meal1app/Modules/menu_types.dart';
 import 'package:meal1app/Modules/popular_food_type.dart';
+import 'package:meal1app/screens/Cart_Screen.dart';
 import 'package:meal1app/screens/food_detailsPage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   FoodDetails foodDetails = FoodDetails(
       name: 'رزمع الدجاج ',
       imageUrl: ' assets/Images/Menus/popular_food/popular2.png',
-      no_rating: 1.1,
+      no_Rating: 1.1,
       price: 20);
 
   @override
@@ -284,14 +285,12 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (selectedIndex) {
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return FoodPageDetails();
+          return CartScreen();
         }));
         break;
       case 2:
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Container(
-            color: Colors.yellow,
-          );
+          return CartScreen();
         }));
         break;
       case 3:
