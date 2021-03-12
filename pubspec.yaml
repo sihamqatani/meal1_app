@@ -55,6 +55,11 @@ flutter:
      - assets/Images/Menus/popular_food/popular1.png
      - assets/Images/Menus/popular_food/popular2.png
      - assets/Images/Menus/popular_food/popular3.png
+     - assets/Images/Menus/fried-egg.png
+     - assets/Images/Menus/ice-cream.png
+     - assets/Images/Menus/meat.png
+     - assets/Images/Menus/pizza-slice.png
+     - assets/Images/Menus/croissant.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
