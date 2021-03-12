@@ -27,34 +27,108 @@ class _CartScreenState extends State<CartScreen> {
               ? Text(
             'لايوجد طلبات',
           )
-              : Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
-            child: ListView.builder(
-              itemCount: cart.basketItems.length,
-              itemExtent: 200,
-              itemBuilder: (context, index) =>
-                  Padding(
-                    padding:
-                    const EdgeInsets.only(top: 25, right: 8, left: 8),
-                    /*  child: Container(
-                               height: MediaQuery.of(context).size.height * .35,
-                                width: MediaQuery.of(context).size.width,
-                                color: Colors.white,
+              : SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * .60,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: cart.basketItems.length,
+                      itemExtent: 80,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          height: 500,
+                          width: double.infinity,
                                 child: Card(
-                                  child:Image.asset(cart.basketItems[index].imageUrl),
-                                  elevation: 5,
-                                  shadowColor: Colors.pink[100],
-                                )),*/
-                    child: ListTile(
-                      title: Card(
-                        child:
-                        Image.asset(cart.basketItems[index].imageUrl),
-                      ),
-                    ),
-                  ),
+                                    elevation: 0,
+                                    shadowColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(10.0)),
+                                    child: Stack(
+                                      children: [
+                                        Align(
+                                            alignment: Alignment.topRight,
+                                            child: Image.asset(cart
+                                                .basketItems[index].imageUrl)),
+                                        Column(
+                                          children: [
+                                            Expanded(
+                                                child: Align(
+                                                  child: Text(cart
+                                                      .basketItems[index].price
+                                                      .toString()),
+                                                  alignment: Alignment.topLeft,
+                                                )),
+                                            Expanded(
+                                              child: Align(
+                                                alignment: Alignment.bottomLeft,
+                                                child: CircleAvatar(
+                                                  child: IconButton(
+                                                      icon: Icon(Icons.close),
+                                                      onPressed: () {
+                                                        cart.remove(
+                                                            cart.basketItems[
+                                                            index]);
+                                                      }),
+                                                  backgroundColor: Colors
+                                                      .red[100],),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 2),
+                                            child: Column(
+                                              children: [
+                                                Text(cart
+                                                    .basketItems[index].name),
+                                                Expanded(
+                                                  child: Row(
+                                                      children: [
+                                                        IconButton(
+                                                            icon:
+                                                            Icon(Icons.add),
+                                                            onPressed: () {
+                                                              cart.add(
+                                                                  cart
+                                                                      .basketItems[
+                                                                  index]);
+                                                            }),
+                                                        Text('counter'),
+                                                        IconButton(
+                                                            icon: Icon(
+                                                                Icons.minimize),
+                                                            onPressed: () {
+                                                              cart.remove(
+                                                                  cart
+                                                                      .basketItems[
+                                                                  index]);
+                                                            }),
+                                                      ],
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .center),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                        );
+                      }),
+                ),
+                Text('/اجمالي الطلب/')],
             ),
           ),
         );
