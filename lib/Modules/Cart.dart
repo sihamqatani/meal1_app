@@ -9,6 +9,7 @@ class Cart extends ChangeNotifier {
 
   void add(FoodDetails item) {
     meal.add(item);
+
     total_price += item.price;
     // print(meal.length);
     notifyListeners();
@@ -17,6 +18,7 @@ class Cart extends ChangeNotifier {
   void remove(FoodDetails item) {
     meal.remove(item);
     total_price -= item.price;
+
     notifyListeners();
   }
 
@@ -25,6 +27,7 @@ class Cart extends ChangeNotifier {
   }
 
 
-  List<FoodDetails> get basketItems => meal;
+  List<FoodDetails> get basketItems => meal.toSet().toList();
+
 
 }

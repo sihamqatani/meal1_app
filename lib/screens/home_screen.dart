@@ -9,8 +9,6 @@ import 'package:meal1app/screens/food_detailsPage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
-
-
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -19,7 +17,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var rating = 0.0;
 
-  Cateorgy menuType = Cateorgy('برجر', 'assets/Images/Menus/burger.png');
+  List<Cateorgy> menuType = [
+    Cateorgy('برجر', 'assets/Images/Menus/burger.png'),
+    Cateorgy('بيتزا', 'assets/Images/Menus/pizza-slice.png'),
+    Cateorgy('ايسكريم', 'assets/Images/Menus/ice-cream.png'),
+    Cateorgy('لحم', 'assets/Images/Menus/meat.png'),
+    Cateorgy('معجنات', 'assets/Images/Menus/croissant.png'),
+    Cateorgy('دجاج', 'assets/Images/Menus/chicken-leg.png'),
+    Cateorgy('سباجيتي', 'assets/Images/Menus/noodles.png'),
+    Cateorgy('مشروبات', 'assets/Images/Menus/cola.png'),
+    Cateorgy('أرز', 'assets/Images/Menus/rice.png'),
+  ];
   List<FoodDetails> foodDetails = [
     FoodDetails(
         name: 'رزمع الدجاج ',
@@ -27,18 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
         no_rating: 1.1,
         price: 20),
     FoodDetails(
-        name: 'سباجيتي',
-        imageUrl: 'assets/Images/Menus/burger.png',
+        name: 'برياني ',
+        imageUrl: 'assets/Images/Menus/b-rice.png',
         no_rating: 1.9,
         price: 30),
     FoodDetails(
-        name: 'ستيك لحم ',
-        imageUrl: 'assets/Images/Menus/burger.png',
+        name: 'برجركلاسيكي ',
+        imageUrl: 'assets/Images/Menus/b.png',
         no_rating: 1.5,
         price: 25),
     FoodDetails(
-        name: 'سمك مشوي ',
-        imageUrl: 'assets/Images/Menus/burger.png',
+        name: 'بيتزا ',
+        imageUrl: 'assets/Images/Menus/p.png',
         no_rating: 2.5,
         price: 60),
   ];
@@ -157,11 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     foodDetails[index].imageUrl,
                                     // 'assets/Images/Menus/popular_food/popular1.png',
                                     fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image.asset(
-                                        "assets/images/Menus/burger2.png",
-                                      );
-                                    },
+
                                   ),
                                 ),
                               ),
@@ -497,17 +501,11 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 100,
       //width: MediaQuery.of(context).size.width,
 
-      child: ListView(
+      child: ListView.builder(
+        itemBuilder: (context, index) => drawTopMenu(menuType[index]),
         //shrinkWrap: true,
-        children: [
-          drawTopMenu(),
-          drawTopMenu(),
-          drawTopMenu(),
-          drawTopMenu(),
-          drawTopMenu(),
-          drawTopMenu(),
-          drawTopMenu(),
-        ],
+
+        itemCount: menuType.length,
         itemExtent: 50,
         scrollDirection: Axis.horizontal,
       ),
@@ -580,7 +578,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget drawTopMenu() {
+  Widget drawTopMenu(Cateorgy menuType) {
     return Container(
       child: Column(
         children: [

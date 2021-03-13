@@ -91,7 +91,8 @@ class _CartScreenState extends State<CartScreen> {
                                             child: Column(
                                               children: [
                                                 Text(cart
-                                                    .basketItems[index].name),
+                                                    .basketItems[index].name
+                                                    .toString()),
                                                 Expanded(
                                                   child: Row(
                                                       children: [
@@ -104,7 +105,8 @@ class _CartScreenState extends State<CartScreen> {
                                                                       .basketItems[
                                                                   index]);
                                                             }),
-                                                        Text('counter'),
+                                                        Text(cart.count
+                                                            .toString()),
                                                         IconButton(
                                                             icon: Icon(
                                                                 Icons.minimize),
@@ -128,7 +130,7 @@ class _CartScreenState extends State<CartScreen> {
                         );
                       }),
                 ),
-                Text('/اجمالي الطلب/')],
+                Text(cart.total_price.toString())],
             ),
           ),
         );
