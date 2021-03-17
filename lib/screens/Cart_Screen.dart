@@ -14,127 +14,274 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Consumer<Cart>(
       builder: (context, cart, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'طلباتي',
-              style: TextStyle(color: Colors.grey[900]),
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Scaffold(
+            bottomNavigationBar: Container(
+              color: Colors.white,
+              width: 50,
+              height: 150,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10, top: 16),
+                    child: Text(
+                      'اجمالي المبلغ :                  ${cart.total_price
+                          .toString()}',
+                      style: TextStyle(
+                        color: Colors.red[200],
+                        fontWeight:
+                        FontWeight.bold,
+                        fontSize: 18,),
+
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Center(
+                    child: SizedBox(width: 200,
+                      child: RaisedButton(shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(30.0)),
+                        color: Colors.red[200],
+                        onPressed: () {},
+                        child: Text('ادفع الان', style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            letterSpacing: 2),),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-            titleSpacing: 2,
-            centerTitle: true,
-          ),
-          body: cart.basketItems.length == 0
-              ? Text(
-            'لايوجد طلبات',
-          )
-              : SingleChildScrollView(
-            child: Column(
+            appBar: AppBar(
+              title: Text(
+                'طلباتي',
+                style: TextStyle(color: Colors.grey[900]),
+              ),
+              titleSpacing: 2,
+              centerTitle: true,
+            ),
+            body: cart.basketItems.length == 0
+                ? Text(
+              'لايوجد طلبات',
+            )
+                : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .60,
+                Expanded(
                   child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       itemCount: cart.basketItems.length,
-                      itemExtent: 80,
+                      // itemExtent: 40,
                       itemBuilder: (context, index) {
-                        return Container(
-                          height: 500,
-                          width: double.infinity,
-                                child: Card(
-                                    elevation: 0,
-                                    shadowColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(10.0)),
-                                    child: Stack(
-                                      children: [
-                                        Align(
-                                            alignment: Alignment.topRight,
-                                            child: Image.asset(cart
-                                                .basketItems[index].imageUrl)),
-                                        Column(
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              bottom: 3, left: 6, right: 6, top: 12),
+                          child: Container(
+                              height: 120,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
+                              child: Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    //   mainAxisAlignment:
+                                    //    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: 45,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.red[100]),
+                                            borderRadius:
+                                            BorderRadius.circular(8)),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                           children: [
                                             Expanded(
-                                                child: Align(
-                                                  child: Text(cart
-                                                      .basketItems[index].price
-                                                      .toString()),
-                                                  alignment: Alignment.topLeft,
+                                                child: InkWell(
+                                                  child: Icon(
+                                                    Icons.arrow_upward,
+                                                    size: 22,
+                                                    color: Colors.red[100],
+                                                  ),
+                                                  onTap: () {
+                                                    cart.add(cart
+                                                        .basketItems[index]);
+                                                  },
                                                 )),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
                                             Expanded(
-                                              child: Align(
-                                                alignment: Alignment.bottomLeft,
-                                                child: CircleAvatar(
-                                                  child: IconButton(
-                                                      icon: Icon(Icons.close),
-                                                      onPressed: () {
-                                                        cart.remove(
-                                                            cart.basketItems[
-                                                            index]);
-                                                      }),
-                                                  backgroundColor: Colors
-                                                      .red[100],),
+                                                child: Text(
+                                                  cart.count.toString(),
+                                                  style: TextStyle(
+                                                      color: Colors.red[200],
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      fontSize: 18),
+                                                )),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
+                                            Expanded(
+                                              child: InkWell(
+                                                child: Icon(
+                                                  Icons.arrow_downward,
+                                                  size: 22,
+                                                  color: Colors.red[100],
+                                                ),
+                                                onTap: () {
+                                                  cart.remove(cart
+                                                      .basketItems[index]);
+                                                },
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 2),
-                                            child: Column(
-                                              children: [
-                                                Text(cart
-                                                    .basketItems[index].name
-                                                    .toString()),
-                                                Expanded(
-                                                  child: Row(
-                                                      children: [
-                                                        IconButton(
-                                                            icon:
-                                                            Icon(Icons.add),
-                                                            onPressed: () {
-                                                              cart.add(
-                                                                  cart
-                                                                      .basketItems[
-                                                                  index]);
-                                                            }),
-                                                        Text(cart.count
-                                                            .toString()),
-                                                        IconButton(
-                                                            icon: Icon(
-                                                                Icons.minimize),
-                                                            onPressed: () {
-                                                              cart.remove(
-                                                                  cart
-                                                                      .basketItems[
-                                                                  index]);
-                                                            }),
-                                                      ],
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center),
-                                                ),
-                                              ],
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Container(
+                                        width: 70,
+                                        height: 70,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(cart
+                                                    .basketItems[index]
+                                                    .imageUrl),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                      SizedBox(
+                                        width: 15,
+                                      ),
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              cart.basketItems[index].name
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color: Colors.grey[600],
+                                                  fontSize: 22,
+                                                  fontWeight:
+                                                  FontWeight.bold),
                                             ),
                                           ),
-                                        )
-                                      ],
-                                    )),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            cart.basketItems[index].price
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: Colors.red[600],
+                                                fontSize: 20,
+                                                fontWeight:
+                                                FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                      //SizedBox(width: 30,),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                child: Align(
+                                                    alignment:
+                                                    Alignment.centerLeft,
+                                                    child: Icon(
+                                                      Icons.cancel,
+                                                      color: Colors.red[100],
+                                                    )),
+                                                onTap: () {
+                                                  cart.remove(
+                                                      cart.basketItems[index]);
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                ),
+                              )),
                         );
                       }),
                 ),
-                Text(cart.total_price.toString())],
+              ],
             ),
           ),
         );
       },
     );
+  }
+
+  Widget cardOrder() {
+    return Container(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        child: Card(
+          child: Padding(
+            child: Row(
+              children: [
+                Container(
+                  width: 45,
+                  height: 75,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red[100]),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        child: Icon(Icons.arrow_upward),
+                        onTap: () {},
+                      ),
+                      Text(''),
+                      InkWell(
+                        child: Icon(Icons.arrow_downward),
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(''), fit: BoxFit.cover)),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(''),
+                    Text(''),
+                  ],
+                ),
+                Icon(Icons.cancel),
+              ],
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          ),
+        ));
   }
 }

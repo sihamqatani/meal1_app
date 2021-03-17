@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:meal1app/Modules/Cart.dart';
-import 'package:meal1app/screens/home_screen.dart';
+import 'package:meal1app/screens/Home_Page.dart';
+
 import 'package:meal1app/Utilities/theme_utilities.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeProject().themeData,
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: HomePage(),
 
     );
   }

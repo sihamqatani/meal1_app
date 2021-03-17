@@ -11,7 +11,7 @@ class Cart extends ChangeNotifier {
     meal.add(item);
 
     total_price += item.price;
-    // print(meal.length);
+
     notifyListeners();
   }
 

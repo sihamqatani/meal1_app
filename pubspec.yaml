@@ -50,7 +50,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - assets/Images/Menus/burger.png
-     - assets/Images/Menus/popular_food/b-rice.png
+
      - assets/Images/Menus/pizza.png
      - assets/Images/Menus/popular_food/popular1.png
      - assets/Images/Menus/popular_food/popular2.png

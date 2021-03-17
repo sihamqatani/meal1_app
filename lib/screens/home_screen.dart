@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:meal1app/Modules/Cart.dart';
 import 'package:meal1app/Modules/menu_types.dart';
 import 'package:meal1app/Modules/popular_food_type.dart';
-import 'package:meal1app/screens/Cart_Screen.dart';
+
 import 'package:meal1app/screens/food_detailsPage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool is_favorite = false;
   var rating = 0.0;
 
   List<Cateorgy> menuType = [
@@ -36,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         price: 20),
     FoodDetails(
         name: 'برياني ',
-        imageUrl: 'assets/Images/Menus/b-rice.png',
+        imageUrl: 'assets/Images/Menus/b.png',
         no_rating: 1.9,
         price: 30),
     FoodDetails(
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        bottomNavigationBar: bottomNavigatorSection(),
+        //bottomNavigationBar: bottomNavigatorSection(),
         appBar: AppBar(
           title: Text(
             'تطبيق مزاجي ',
@@ -100,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
   Widget popularFoodMenu(BuildContext ctx) {
     //var rating;
     return Container(
@@ -108,7 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.only(
+                top: 8, right: 16, left: 16, bottom: 8),
             child: Container(
               alignment: Alignment.topRight,
               child: Text('الوجبات الاكثر طلبا',
@@ -135,15 +138,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Align(
                             child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.favorite_border,
-                                color: Colors.pink[100],
-                                size: 25,
-                              ),
+                              onPressed: () {
+                                setState(() {
+                                  is_favorite = !is_favorite;
+                                  // is_favorite=true;
+                                });
+                              },
+                              icon: is_favorite ? Icon(
+                                Icons.favorite_border, size: 25,) : Icon(
+                                Icons.favorite, size: 25,),
+                              color: Colors.pink[100],
+
                             ),
-                            alignment: Alignment.topLeft,
-                          ),
+                            alignment: Alignment.topLeft,),
+
+
                           Align(
                             alignment: Alignment.centerRight,
                             child: Container(
@@ -227,20 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             // print(rating);
                                           },
                                         ),
-                                        /*SmoothStarRating(
-                                  allowHalfRating: false,
-                                  onRated: (v) {},
-                                  starCount: 5,
-                                  rating: rating,
-                                  size: 20.0,
-                                  isReadOnly: false,
-                                  filledIconData: Icons.star,
-                                  halfFilledIconData: Icons.star_border,
-                                  color: Colors.pink[100],
-                                  borderColor: Colors.pink[50],
-                                  spacing: 2.0),*/
 
-                                        //Row(
                                       ),
                                     ],
                                   ),
@@ -305,173 +301,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  /* Widget popularListItem(FoodDetails foodDetail) {
-    return Container(
-      height: 400,
-      child: Card(
-        elevation: 0,
-        color: Colors.white,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-        child: Stack(
-          children: [
-            Align(
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.favorite_border,
-                  color: Colors.pink[100],
-                  size: 25,
-                ),
-              ),
-              alignment: Alignment.topLeft,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                padding: EdgeInsets.only(bottom: 100),
-                width: double.infinity,
-                height: 350,
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      return Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return FoodPageDetails();
-                      }));
-                    },
-                    child: Image.asset(
-                      foodDetails[foodDetails.length].imageUrl,
-                      // 'assets/Images/Menus/popular_food/popular1.png',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          "assets/images/Menus/burger2.png",
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 210, right: 22),
-                    child: Text(
-                      foodDetails[foodDetails.length].name,
-                      //'ستيك لحم مع الخضار',
-                      style: TextStyle(color: Colors.grey[600], fontSize: 22),
-                    ),
-                  ),
-                  alignment: Alignment.centerRight,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8, left: 8),
-                  child: Align(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          foodDetails[foodDetails.length].no_rating.toString(),
-                          // '(1.9)',
-                          //  Provider.of<Cart>(context, listen:true )
-                          //       .meal.length
-
-                          //  .toString(),
-                          style:
-                              TextStyle(color: Colors.grey[600], fontSize: 22),
-                        ),
-                        Container(
-                          child: RatingBar.builder(
-                            itemSize: 20,
-                            initialRating: 1,
-                            minRating: 1,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            // itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.red[200],
-                            ),
-                            onRatingUpdate: (rating) {
-                              // print(rating);
-                            },
-                          ),
-                          /*SmoothStarRating(
-                                  allowHalfRating: false,
-                                  onRated: (v) {},
-                                  starCount: 5,
-                                  rating: rating,
-                                  size: 20.0,
-                                  isReadOnly: false,
-                                  filledIconData: Icons.star,
-                                  halfFilledIconData: Icons.star_border,
-                                  color: Colors.pink[100],
-                                  borderColor: Colors.pink[50],
-                                  spacing: 2.0),*/
-
-                          //Row(
-                        ),
-                      ],
-                    ),
-                    alignment: Alignment.centerRight,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        foodDetails[foodDetails.length].price.toString(),
-                        // '\$12 ',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.red[200],
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 14),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.red[100],
-                          radius: 20,
-                          child: IconButton(
-                              iconSize: 20,
-                              color: Colors.white,
-                              icon: Icon(
-                                Icons.add,
-                              ),
-                              onPressed: () { Provider.of<Cart>(context, listen: false).basketItems.add(foodDetails[foodDetails.length]);
-                               // print(foodDetails.length);
-
-                                // print();
-                              //  print(foodDetails.length);
-                              }),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }*/
-  // color: Colors.white,
-
-  // width:MediaQuery.of(ctx).size.width,
 
   Widget searchPart() {
     return Container(
@@ -512,71 +341,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  navigateScreen(int selectedIndex) {
-    switch (selectedIndex) {
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CartScreen();
-        }));
-        break;
-      case 2:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return CartScreen();
-        }));
-        break;
-      case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Container(
-            color: Colors.grey,
-          );
-        }));
-        break;
-      case 4:
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return Container(color: Colors.blue);
-        }));
-        break;
-    }
-  }
-
-  bottomNavigatorSection() {
-    int selectedIndex = 0;
-
-    return BottomNavigationBar(
-      onTap: (int x) {
-        setState(() {
-          selectedIndex = x;
-          //  print(selectedIndex);
-
-          navigateScreen(selectedIndex);
-        });
-      },
-      type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          //  activeIcon: ,
-          label: 'الرئيسية',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
-          label: 'اطلب الآن',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.card_giftcard),
-          label: 'العروض',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: 'مفضلاتي',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_box),
-          label: 'حسابي',
-        ),
-      ],
-    );
-  }
 
   Widget drawTopMenu(Cateorgy menuType) {
     return Container(
