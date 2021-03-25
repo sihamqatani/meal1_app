@@ -10,8 +10,10 @@ class _FoodPageDetailsState extends State<FoodPageDetails> {
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar( ),
       body: Directionality(
+
         textDirection: TextDirection.rtl,
         child: SingleChildScrollView(
+
           child: Column(
             children: [
               Container(

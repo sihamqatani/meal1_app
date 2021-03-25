@@ -8,6 +8,11 @@ import 'package:meal1app/Modules/popular_food_type.dart';
 import 'package:meal1app/screens/food_detailsPage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+
+import 'gridVie_food.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,7 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool is_favorite = false;
+  bool is_favorite = true;
+
   var rating = 0.0;
 
   List<Cateorgy> menuType = [
@@ -51,6 +57,72 @@ class _HomeScreenState extends State<HomeScreen> {
         no_rating: 2.5,
         price: 60),
   ];
+  List imageSlider = [
+    'assets/Images/Menus/p.png',
+    'assets/Images/Menus/b.png',
+    'assets/Images/Menus/b.png'
+  ];
+
+  Widget drawTextSlider() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        alignment: Alignment.topRight,
+        child: Text('الوجبات المتوفرةاليوم',
+            textAlign: TextAlign.right,
+            style: TextStyle(
+                color: Colors.grey[600],
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Cairo'
+            )),
+      ),
+    );
+  }
+
+  Widget drawImageSlider() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CarouselSlider.builder(
+          itemCount: imageSlider.length,
+          itemBuilder: (context, index, realIndex) {
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.white,
+                  width: 5,
+                ),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  new BoxShadow(
+                    color: Colors.white,
+                    //  offset: new Offset(10.0, 10.0),
+                  ),
+                ],
+              ),
+              height: 200,
+              // color: Colors.white,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              margin: EdgeInsets.symmetric(horizontal: 5.0),
+              child: Image.asset(
+                imageSlider[index],
+                fit: BoxFit.fill,
+              ),
+            );
+          },
+          options: CarouselOptions(
+            initialPage: 0,
+            enlargeCenterPage: true,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            autoPlay: true,
+            // dotSize: 6.0,
+            autoPlayInterval: Duration(seconds: 3),
+          )),
+    );
+  }
 
   //print(foodDetails.length);
 
@@ -62,25 +134,36 @@ class _HomeScreenState extends State<HomeScreen> {
         //bottomNavigationBar: bottomNavigatorSection(),
         appBar: AppBar(
           title: Text(
-            'تطبيق مزاجي ',
-            style: TextStyle(color: Colors.grey[900]),
+            ' مزاجي ',
+            style: TextStyle(color: Colors.grey[900], fontFamily: 'Cairo'),
           ),
           elevation: 0,
           actions: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                Provider
-                    .of<Cart>(context, listen: true)
-                    .count
-                    .toString(),
-                //'2',
-                style: TextStyle(color: Colors.pink),
+              padding: const EdgeInsets.all(12),
+              child: InkWell(
+                child: Badge(
+                  shape: BadgeShape.circle,
+                  badgeColor: Colors.red[200],
+                  animationType: BadgeAnimationType.scale,
+                  badgeContent: Text(
+                    Provider
+                        .of<Cart>(context, listen: true)
+                        .count
+                        .toString(),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Cairo'
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.red[300],
+                    size: 20,
+                  ),
+                ),
+                onTap: () {},
               ),
-            ),
-            InkWell(
-              child: Icon(Icons.notifications_none),
-              onTap: () {},
             ),
           ],
         ),
@@ -91,7 +174,8 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 searchPart(),
                 topMenuPart(),
-                popularFoodMenu(context),
+                drawTextSlider(),
+                drawImageSlider(),
                 popularFoodMenu(context),
               ],
             ),
@@ -101,7 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   Widget popularFoodMenu(BuildContext ctx) {
     //var rating;
     return Container(
@@ -110,12 +193,16 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-                top: 8, right: 16, left: 16, bottom: 8),
+            padding:
+            const EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 8),
             child: Container(
               alignment: Alignment.topRight,
               child: Text('الوجبات الاكثر طلبا',
-                  style: TextStyle(color: Colors.grey[600], fontSize: 22)),
+                  style: TextStyle(color: Colors.grey[600],
+                      fontSize: 22,
+                      fontFamily: 'Cairo',
+                      fontWeight: FontWeight.bold
+                  )),
             ),
           ),
           Container(
@@ -144,15 +231,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   // is_favorite=true;
                                 });
                               },
-                              icon: is_favorite ? Icon(
-                                Icons.favorite_border, size: 25,) : Icon(
-                                Icons.favorite, size: 25,),
+                              icon: is_favorite
+                                  ? Icon(
+                                Icons.favorite_border,
+                                size: 25,
+                              )
+                                  : Icon(
+                                Icons.favorite,
+                                size: 25,
+                              ),
                               color: Colors.pink[100],
-
                             ),
-                            alignment: Alignment.topLeft,),
-
-
+                            alignment: Alignment.topLeft,
+                          ),
                           Align(
                             alignment: Alignment.centerRight,
                             child: Container(
@@ -174,7 +265,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     foodDetails[index].imageUrl,
                                     // 'assets/Images/Menus/popular_food/popular1.png',
                                     fit: BoxFit.cover,
-
                                   ),
                                 ),
                               ),
@@ -191,7 +281,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     foodDetails[index].name,
                                     //'ستيك لحم مع الخضار',
                                     style: TextStyle(
-                                        color: Colors.grey[600], fontSize: 22),
+                                        color: Colors.grey[600],
+                                        fontSize: 18,
+                                        fontFamily: 'Cairo'),
                                   ),
                                 ),
                                 alignment: Alignment.centerRight,
@@ -236,7 +328,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             // print(rating);
                                           },
                                         ),
-
                                       ),
                                     ],
                                   ),
@@ -250,13 +341,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment
                                       .spaceBetween,
                                   children: [
-                                    Text(
-                                      foodDetails[index].price.toString(),
+                                    Text('${foodDetails[index].price
+                                        .toString()}ريال'
+                                      ,
                                       // '\$12 ',
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Colors.red[200],
-                                          fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Cairo'),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -301,7 +394,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
   Widget searchPart() {
     return Container(
       color: Colors.white,
@@ -325,52 +417,68 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget topMenuPart() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      height: 100,
-      //width: MediaQuery.of(context).size.width,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Container(
+        // margin: EdgeInsets.symmetric(vertical: 20),
+        height: 100,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
 
-      child: ListView.builder(
-        itemBuilder: (context, index) => drawTopMenu(menuType[index]),
-        //shrinkWrap: true,
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemBuilder: (context, index) => drawTopMenu(menuType[index]),
+          //shrinkWrap: true,
 
-        itemCount: menuType.length,
-        itemExtent: 50,
-        scrollDirection: Axis.horizontal,
+          itemCount: menuType.length,
+          itemExtent: 50,
+          scrollDirection: Axis.horizontal,
+        ),
       ),
     );
   }
 
-
   Widget drawTopMenu(Cateorgy menuType) {
     return Container(
+      // margin:EdgeInsets.symmetric(horizontal:5),
       child: Column(
         children: [
-          Card(
-              child: Container(
-                decoration: BoxDecoration(
-                  // color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                width: 50,
-                height: 50,
-                child: Card(
-                  elevation: 0,
-                  /* shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),*/
+          Card(margin: EdgeInsets.symmetric(horizontal: 5),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(
+                          builder: (context) => GridViewDishes()));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    // color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  width: 50,
+                  height: 50,
+                  child: Card(
+                    elevation: 0,
+                    /* shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),*/
 
-                  child: Container(
-                    width: 25,
-                    height: 25,
-                    child: Center(
-                      child: Image.asset(menuType.imageUrl),
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      child: Center(
+                        child: Image.asset(menuType.imageUrl),
+                      ),
                     ),
                   ),
                 ),
               )),
+          //SizedBox(width: 10,height: 10,),
           Text(
             menuType.name,
-            style: TextStyle(color: Colors.grey[600], fontSize: 18),
+            style: TextStyle(
+                color: Colors.grey[900], fontSize: 12, fontFamily: 'Cairo'),
           ),
         ],
       ),

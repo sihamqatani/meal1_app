@@ -32,7 +32,7 @@ class _CartScreenState extends State<CartScreen> {
                         color: Colors.red[200],
                         fontWeight:
                         FontWeight.bold,
-                        fontSize: 18,),
+                          fontSize: 18, fontFamily: 'Cairo'),
 
                     ),
                   ),
@@ -45,8 +45,8 @@ class _CartScreenState extends State<CartScreen> {
                         onPressed: () {},
                         child: Text('ادفع الان', style: TextStyle(
                             color: Colors.white,
-                            fontSize: 22,
-                            letterSpacing: 2),),
+                            fontSize: 20,
+                            letterSpacing: 2, fontFamily: 'Cairo'),),
                       ),
                     ),
                   )
@@ -56,14 +56,18 @@ class _CartScreenState extends State<CartScreen> {
             appBar: AppBar(
               title: Text(
                 'طلباتي',
-                style: TextStyle(color: Colors.grey[900]),
+                style: TextStyle(color: Colors.grey[900], fontFamily: 'Cairo'),
               ),
               titleSpacing: 2,
               centerTitle: true,
+
             ),
             body: cart.basketItems.length == 0
-                ? Text(
-              'لايوجد طلبات',
+                ? Center(
+              child: Text(
+                  'لايوجد طلبات', style: TextStyle(
+                  fontFamily: 'Cairo', fontSize: 20, color: Colors.red[300])
+              ),
             )
                 : Column(
               mainAxisSize: MainAxisSize.min,
@@ -131,7 +135,9 @@ class _CartScreenState extends State<CartScreen> {
                                                       color: Colors.red[200],
                                                       fontWeight:
                                                       FontWeight.bold,
-                                                      fontSize: 18),
+                                                    fontSize: 16,
+                                                  )
+                                                  ,
                                                 )),
                                             SizedBox(
                                               height: 5,
@@ -179,9 +185,10 @@ class _CartScreenState extends State<CartScreen> {
                                                   .toString(),
                                               style: TextStyle(
                                                   color: Colors.grey[600],
-                                                  fontSize: 22,
+                                                  fontSize: 18,
                                                   fontWeight:
-                                                  FontWeight.bold),
+                                                  FontWeight.bold,
+                                                  fontFamily: 'Cairo'),
                                             ),
                                           ),
                                           SizedBox(
@@ -194,7 +201,9 @@ class _CartScreenState extends State<CartScreen> {
                                                 color: Colors.red[600],
                                                 fontSize: 20,
                                                 fontWeight:
-                                                FontWeight.bold),
+                                                FontWeight.bold,
+                                                fontFamily: 'Cairo'
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -208,10 +217,16 @@ class _CartScreenState extends State<CartScreen> {
                                                       Icons.cancel,
                                                       color: Colors.red[100],
                                                     )),
-                                                onTap: () {
-                                                  cart.remove(
-                                                      cart.basketItems[index]);
-                                                },
+                                                  onTap: () {
+                                                    cart.remove(cart
+                                                        .basketItems[index]);
+                                                    AlertDialog(title: Text(
+                                                        'هل انت متأكد من الغاء طلبك'),
+                                                      actions: [
+                                                      ],);
+                                                  }
+
+
                                               ),
                                             ),
                                           ],
@@ -228,6 +243,7 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
   }
+
 
   Widget cardOrder() {
     return Container(

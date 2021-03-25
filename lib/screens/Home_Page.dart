@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:meal1app/Modules/Cart.dart';
 import 'package:meal1app/screens/Cart_Screen.dart';
+import 'package:meal1app/screens/login_Screen.dart';
 import 'package:provider/provider.dart';
+
 
 import 'home_screen.dart';
 
@@ -19,7 +21,8 @@ class _HomePageState extends State<HomePage> {
     ),
     Container(
       color: Colors.yellow,
-    )
+    ),
+    Login(),
   ];
   int selectedPageIndex = 0;
 

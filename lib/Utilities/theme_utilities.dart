@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ThemeProject {
   ThemeData themeData = ThemeData(
       scaffoldBackgroundColor: Colors.red[50],
