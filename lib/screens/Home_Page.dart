@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:meal1app/Modules/Cart.dart';
+import 'package:meal1app/Modules/auth_firebase.dart';
 import 'package:meal1app/screens/Cart_Screen.dart';
 import 'package:meal1app/screens/login_Screen.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +10,20 @@ import 'package:provider/provider.dart';
 import 'home_screen.dart';
 
 class HomePage extends StatefulWidget {
+  User user;
+
   @override
   _HomePageState createState() => _HomePageState();
+
+  HomePage(this.user);
+
+
 }
 
 class _HomePageState extends State<HomePage> {
+  // FirebaseAuth instance = FirebaseAuth.instance;
+
+
   List<Widget> pages = [
     HomeScreen(),
     CartScreen(),
@@ -30,6 +41,11 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedPageIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -74,4 +90,6 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
+
 }

@@ -1,58 +1,46 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:meal1app/Modules/auth_firebase.dart';
 import 'package:meal1app/screens/Home_Page.dart';
-import 'package:meal1app/screens/sign_up%20Screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-class Login extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  Login_State createState() => Login_State();
+  SignUp_State createState() => SignUp_State();
 }
 
-class Login_State extends State<Login> {
-  // FirebaseAuth instance = FirebaseAuth.instance;
-  String _email, _password;
-  var loginKey = GlobalKey<ScaffoldState>();
+class SignUp_State extends State<SignUp> {
+  String _name, _password, _email;
+  FirebaseAuth instance = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        key: loginKey,
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * .8,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
-                  decoration: BoxDecoration(
-                      color: Colors.pink[50],
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50),
-                      )),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    drawLogo(),
-                    drawSingIn(context),
-                    drawButtom(),
-                  ],
-                )
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * .8,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.pink[50],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    )),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  drawLogo(),
+                  drawSingIn(context),
+                  //drawButtom(),
+                ],
+              )
+            ],
           ),
         ),
       ),
@@ -83,10 +71,7 @@ class Login_State extends State<Login> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         FlatButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => SignUp()));
-            },
+            onPressed: () {},
             child: RichText(
               text: TextSpan(children: [
                 TextSpan(
@@ -95,22 +80,9 @@ class Login_State extends State<Login> {
                 TextSpan(
                     text: 'انشئ حسابك',
                     style:
-                    TextStyle(color: Colors.red[200], fontFamily: 'Cairo')),
+                        TextStyle(color: Colors.red[200], fontFamily: 'Cairo')),
               ]),
-            )),
-        FlatButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        HomePage(Provider
-                            .of<AuthProvider>(context)
-                            .user)));
-          },
-          child: Text('تخطي',
-              style: TextStyle(color: Colors.red[200], fontFamily: 'Cairo')),
-        ),
+            ))
       ],
     );
   }
@@ -122,14 +94,8 @@ class Login_State extends State<Login> {
           Radius.circular(20),
         ),
         child: Container(
-            width: MediaQuery
-                .of(context)
-                .size
-                .width * 0.8,
-            height: MediaQuery
-                .of(context)
-                .size
-                .height * 0.7,
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.7,
             decoration: BoxDecoration(
               color: Colors.white,
             ),
@@ -153,6 +119,25 @@ class Login_State extends State<Login> {
                               fontFamily: 'Cairo'),
                         ),
                       ]),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.face,
+                        color: Colors.red[50],
+                      ),
+                      labelText: ' الاسم',
+                      hintText: 'الرجاءادخال االاسم',
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        this._name = value;
+                      });
+                    },
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -193,23 +178,6 @@ class Login_State extends State<Login> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      FlatButton(
-                        child: Text(
-                          'نسيت كلمةالسر',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontFamily: 'Cairo'),
-                        ),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -218,7 +186,7 @@ class Login_State extends State<Login> {
                         child: RaisedButton(
                             color: Colors.red[200],
                             child: Text(
-                              'دخول',
+                              'تسجيل',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
@@ -229,45 +197,23 @@ class Login_State extends State<Login> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             onPressed: () async {
-                              if (!await Provider.of<AuthProvider>(context,
-                                  listen: false)
-                                  .login(_email, _password)) {
-                                loginKey.currentState.showSnackBar(SnackBar(
-                                  content: Text(Provider
-                                      .of<AuthProvider>(context)
-                                      .errorMessage
-                                      .toString()),
-                                ));
-                                print(Provider
-                                    .of<AuthProvider>(context,
-                                    listen: false)
-                                    .user
-                                    .toString());
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            HomePage(
-                                                Provider
-                                                    .of<AuthProvider>(context,
-                                                    listen: false)
-                                                    .user)));
-                                print(Provider
-                                    .of<AuthProvider>(context,
-                                    listen: false)
-                                    .user
-                                    .toString());
+                              UserCredential credential =
+                                  await instance.createUserWithEmailAndPassword(
+                                      email: this._email,
+                                      password: this._password);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage(
+                                          Provider.of<AuthProvider>(context)
+                                              .user)));
+
+                              try {} on FirebaseAuthException catch (e) {
+                                print('there is exception');
                               }
                             }),
-                        height: 1.4 * (MediaQuery
-                            .of(context)
-                            .size
-                            .height / 20),
-                        width: 5 * (MediaQuery
-                            .of(context)
-                            .size
-                            .width / 10),
+                        height: 1.4 * (MediaQuery.of(context).size.height / 20),
+                        width: 5 * (MediaQuery.of(context).size.width / 10),
                       ),
                     ],
                   ),
@@ -295,13 +241,13 @@ class Login_State extends State<Login> {
                           Container(
 // margin: EdgeInsets.only(bottom: 19),
                               child: CircleAvatar(
-                                radius: 100,
+                            radius: 100,
 // backgroundColor: Colors.lightBlueAccent,
-                                child: Icon(
-                                  FontAwesomeIcons.facebook,
-                                  color: Colors.white,
-                                ),
-                              ))
+                            child: Icon(
+                              FontAwesomeIcons.facebook,
+                              color: Colors.white,
+                            ),
+                          ))
                         ],
                       ),
                     ),

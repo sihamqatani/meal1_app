@@ -1,12 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:meal1app/Modules/Cart.dart';
+import 'package:meal1app/Modules/auth_firebase.dart';
 import 'package:meal1app/Modules/menu_types.dart';
 import 'package:meal1app/Modules/popular_food_type.dart';
 
 import 'package:meal1app/screens/food_detailsPage.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:meal1app/screens/login_Screen.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,15 +18,23 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'gridVie_food.dart';
 
 class HomeScreen extends StatefulWidget {
+  // User user;
   @override
+  // BuildContext context;
   _HomeScreenState createState() => _HomeScreenState();
+
+//  HomeScreen(this.user);
+
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool is_favorite = true;
 
+
   var rating = 0.0;
 
+  // FirebaseAuth instance = FirebaseAuth.instance;
   List<Cateorgy> menuType = [
     Cateorgy('برجر', 'assets/Images/Menus/burger.png'),
     Cateorgy('بيتزا', 'assets/Images/Menus/pizza-slice.png'),
@@ -131,14 +142,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        drawer: Drawer(
+          child: FlatButton(child: Icon(Icons.exit_to_app,), onPressed: () {
+            Provider.of<AuthProvider>(context, listen: false).signOut();
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Login()));
+
+            //instance.signOut();
+          },),),
         //bottomNavigationBar: bottomNavigatorSection(),
-        appBar: AppBar(
+        appBar: AppBar(iconTheme: IconThemeData(color: Colors.red[200]),
           title: Text(
             ' مزاجي ',
             style: TextStyle(color: Colors.grey[900], fontFamily: 'Cairo'),
           ),
           elevation: 0,
           actions: [
+
             Padding(
               padding: const EdgeInsets.all(12),
               child: InkWell(
@@ -165,6 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {},
               ),
             ),
+
           ],
         ),
         body: SafeArea(
